@@ -1,23 +1,27 @@
-from django.shortcuts import render
-from .forms import BasemapForm
+from django.shortcuts import render, get_object_or_404
+from django.views import generic
+from django.urls import reverse_lazy
 from .models import Basemap
+from .forms import BasemapForm
+from django.contrib.gis import forms
 
-def basemap(request):
+class BasemapView(generic.DetailView):
 
-    basemapAll = Basemap.objects.all()
+    model = Basemap
+    template_name = 'basemap/basemap.html'
 
-    return render(request, 'basemap.html', {'basemap_current': basemapAll[0]})
+class BasemapToolbarView(generic.UpdateView):
 
-def basemap_all(request):
+    model = Basemap
+    template_name = 'basemap/basemap_toolbar.html'
+    success_url = reverse_lazy('basemap_list')
+    form_class = BasemapForm
 
-    basemapAll = Basemap.objects.all()
-    print(basemapAll[0].name)
-    return render(request, 'basemap_all.html', {'basemap_all': basemapAll})
+class BasemapListView(generic.ListView):
 
-def get_name(request):
+    template_name = 'basemap/basemap_listview.html'
+    context_object_name = 'basemap_listview'
 
-    form = BasemapForm()
-        
-    return render(request, 'name.html', {'form': form})
-    
+    def get_queryset(self):
 
+        return Basemap.objects.all()
