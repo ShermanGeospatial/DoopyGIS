@@ -17,6 +17,13 @@ class BasemapToolbarView(generic.UpdateView):
     success_url = reverse_lazy('basemap_list')
     form_class = BasemapForm
 
+class BasemapNewToolbarView(generic.CreateView):
+
+    model = Basemap
+    template_name = 'basemap/basemap_toolbar.html'
+    success_url = reverse_lazy('basemap_list')
+    form_class = BasemapForm
+
 class BasemapListView(generic.ListView):
 
     template_name = 'basemap/basemap_listview.html'

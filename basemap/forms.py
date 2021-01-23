@@ -8,4 +8,5 @@ class BasemapForm(forms.ModelForm):
         fields = ['name', 'style', 'zoom', 'location']
         widgets = {
             'location':forms.HiddenInput(),
+            'zoom':forms.HiddenInput(),
         }

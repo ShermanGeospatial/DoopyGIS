@@ -5,7 +5,7 @@
       var zoomLevel = document.getElementById("id_zoom");
       var mapCenter = document.getElementById("id_location");
 
-      console.log(typeof mapCenter.value);
+      console.log(mapCenter.value);
       var map = new mapboxgl.Map({
         container: 'map', // container id
         style: "mapbox://styles/mapbox/" + mapstyle.value, //YOUR TURN: choose a style: https://docs.mapbox.com/api/maps/#styles

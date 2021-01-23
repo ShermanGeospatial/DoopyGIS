@@ -1,2 +1,18 @@
-{{basemap_listview}}
-<p>BAMN</p>
+{% load static %}
+
+{% if basemap_listview %}
+
+    <ul>
+        
+        {% for basemap in basemap_listview %}
+            <li><a href="{% url 'basemap_toolbar' basemap.id %}">{{basemap.name}}</a></li>
+        {% endfor %}
+
+    </ul>
+{% else %}
+    <p>No Maps</p>
+{% endif %}
+
+    <p>
+        <li><a href="{% url 'basemap_toolbar_new' %}">New Map</a></li>
+    </p>
