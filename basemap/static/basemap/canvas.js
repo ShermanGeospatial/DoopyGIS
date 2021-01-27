@@ -49,6 +49,7 @@ mapstyle.addEventListener("change", function(){
 
 zoomLevel.addEventListener("change", function(){
 
+  console.log(zoomLevel.value);
   map.setZoom(zoomLevel.value);
   
 });

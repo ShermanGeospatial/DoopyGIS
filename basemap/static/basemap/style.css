@@ -10,3 +10,11 @@ body {
     top: 0;
     bottom: 0;
   }
+
+.blogShort{ border-bottom:1px solid #ddd;}
+
+.mapListBody{
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
+}

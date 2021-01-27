@@ -1,18 +1,22 @@
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'basemap/style.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-{% if basemap_listview %}
-
-    <ul>
-        
+<body class="mapListBody">
+    {% if basemap_listview %}
+            
         {% for basemap in basemap_listview %}
-            <li><a href="{% url 'basemap_toolbar' basemap.id %}">{{basemap.name}}</a></li>
+
+            <div class="col-md-10 blogShort">
+                <h1><a href="{% url 'basemap_toolbar' basemap.id %}">{{basemap.name}}</a></h1>
+            </div>
         {% endfor %}
 
-    </ul>
-{% else %}
-    <p>No Maps</p>
-{% endif %}
+    {% else %}
+        <p>No Maps</p>
+    {% endif %}
 
     <p>
-        <li><a href="{% url 'basemap_toolbar_new' %}">New Map</a></li>
+        <a href="{% url 'basemap_toolbar_new' %}" class="btn btn-outline-success my-2 my-lg-0">New Map</a>
     </p>
+</body>
