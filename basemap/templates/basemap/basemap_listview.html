@@ -8,7 +8,12 @@
         {% for basemap in basemap_listview %}
 
             <div class="col-md-10 blogShort">
-                <h1><a href="{% url 'basemap_toolbar' basemap.id %}">{{basemap.name}}</a></h1>
+                <p><b>Name:</b> {{basemap.name}}</p>
+                <p><b>Style:</b> {{basemap.style}}</p>
+                <p><b>Zoom:</b> {{basemap.zoom}}</p>
+                <p><b>Location:</b> {{basemap.location}}</p>
+                <a href="{% url 'basemap_toolbar' basemap.id %}" class="btn btn-outline-success my-2 my-lg-0">Open</a>
+                <p> </p>
             </div>
         {% endfor %}
 
@@ -16,6 +21,7 @@
         <p>No Maps</p>
     {% endif %}
 
+    <p></p>
     <p>
         <a href="{% url 'basemap_toolbar_new' %}" class="btn btn-outline-success my-2 my-lg-0">New Map</a>
     </p>
