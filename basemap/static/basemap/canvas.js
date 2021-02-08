@@ -47,10 +47,10 @@ mapstyle.addEventListener("change", function(){
 
 });
 
-zoomLevel.addEventListener("change", function(){
+map.on("zoom", function(){
 
   console.log(zoomLevel.value);
-  map.setZoom(zoomLevel.value);
+  zoomLevel.value = map.getZoom();
   
 });
 
@@ -72,3 +72,31 @@ function setLocation(){
 map.on('move', function(){
   mapCenter.value = setLocation();
 });
+
+    
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+
+function loginDropdown() {
+  document.getElementById("loginDropdown").classList.toggle("show");
+  console.log('bamn1');
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.loginBtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      if (dropdowns.classList.contains('show')) {
+              dropdowns.classList.remove('show');
+      }
+  }
+  console.log('bamn2');
+}
