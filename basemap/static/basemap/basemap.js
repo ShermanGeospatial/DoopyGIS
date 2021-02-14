@@ -30,16 +30,18 @@ var map = new mapboxgl.Map({
   zoom: zoomLevel.value, // starting zoom
 });
 
+var geocodeWidget = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl,
+  });
+
 map.on("load", function() {
   map.addControl(new mapboxgl.NavigationControl(),'bottom-right');
   map.addControl(new mapboxgl.FullscreenControl(),'bottom-right');
-  map.addControl(new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true
-    },
-    trackUserLocation: true
-  }),'bottom-right');
 });
+
+
+document.getElementById('geocoder').appendChild(geocodeWidget.onAdd(map));
 
 mapstyle.addEventListener("change", function(){
     
@@ -47,9 +49,11 @@ mapstyle.addEventListener("change", function(){
 
 });
 
+
+console.log(typeof(geocodeWidget));
+
 map.on("zoom", function(){
 
-  console.log(zoomLevel.value);
   zoomLevel.value = map.getZoom();
   
 });
@@ -73,13 +77,20 @@ map.on('move', function(){
   mapCenter.value = setLocation();
 });
 
+var sidebarOpen = false;
     
 function openNav() {
-  document.getElementById("mySidenav").style.width = "250px";
-}
 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
+  if (!sidebarOpen){
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("sidebar-btn").innerHTML = "close";
+    sidebarOpen = true;
+  }
+  else{
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("sidebar-btn").innerHTML = "open";
+    sidebarOpen = false;
+  }
 }
 
 /* When the user clicks on the button, 
@@ -101,7 +112,7 @@ window.onclick = function(event) {
   console.log('bamn2');
 }
 
-function openPanel(evt, cityName) {
+function openPanel(evt, panelName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("side-panel-content");
   for (i = 0; i < tabcontent.length; i++) {
@@ -111,6 +122,24 @@ function openPanel(evt, cityName) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(cityName).style.display = "block";
+  document.getElementById(panelName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+function addPoints(pointset, randomColor) {
+
+  var index = pointset.indexOf(",");
+
+  var lat = pointset.substring(1,index);
+  var lon = pointset.substring(index+2,pointset.length-1);
+
+  var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+    '<p><b>Latitude = </b>' + lat + '</p><p><b>Longitude = </b>' + lon + '</p>'
+    );
+
+  var marker = new mapboxgl.Marker(
+    {color:randomColor}
+  ).setLngLat([lon,lat]).setPopup(popup).addTo(map);
+  
+}
+

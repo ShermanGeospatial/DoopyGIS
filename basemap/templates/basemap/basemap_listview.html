@@ -8,11 +8,24 @@
         {% for basemap in basemap_listview %}
 
             <div class="col-md-10 blogShort">
-                <p><b>Name:</b> {{basemap.name}}</p>
+                <p><b>{{basemap}}</b></p>
                 <p><b>Style:</b> {{basemap.style}}</p>
                 <p><b>Zoom:</b> {{basemap.zoom}}</p>
-                <p><b>Location:</b> {{basemap.location}}</p>
-                <a href="{% url 'basemap_toolbar' basemap.id %}" class="btn btn-outline-success my-2 my-lg-0">Open</a>
+                <p><b>Location:</b> {{basemap.get_centre}}</p>
+                <p><b>SRID:</b> {{basemap.get_srid}}</b></p>
+                <p><b>Point Sets:</b></p>
+
+                {% for pointset in basemap.pointsets.all %}
+
+                <p>{{pointset}}</p>
+
+
+                {% empty %}
+
+                    <p>None</p>
+
+                {% endfor %}
+                <a href="{% url 'basemap' basemap.id %}" class="btn btn-outline-success my-2 my-lg-0">Open</a>
                 <p> </p>
             </div>
         {% endfor %}
@@ -23,6 +36,6 @@
 
     <p></p>
     <p>
-        <a href="{% url 'basemap_toolbar_new' %}" class="btn btn-outline-success my-2 my-lg-0">New Map</a>
+        <a href="{% url 'basemap_new' %}" class="btn btn-outline-success my-2 my-lg-0">New Map</a>
     </p>
 </body>

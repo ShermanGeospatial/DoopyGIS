@@ -7,41 +7,24 @@
             <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="form-group">
-            <form action ="" method="post" class="navbar-form navbar-left my-2 my-lg-0">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-sm">
-                        {{form.name}}
-                    </div>
-                    <div class="col-sm">
-                        {{form.style}}
-                    </div>
-                    {{form.zoom}}
-                    {{form.location}}
-                    <div class="col-sm">
-                        <button type="submit" class="btn btn-outline-success my-2 my-lg-0">Save</button>
-                    </div>
+    {% if user.is_authenticated %}
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav  ms-auto">        
+            <li class="nav-item dropdown">
+                <button onclick="loginDropdown()" class="btn btn-outline-success my-2 my-lg-0 loginBtn">{{user}}<i class="fa fa-caret-down"></i></button>
+                <ul style="list-style-type:none" id="loginDropdown" class="dropdown-content">
+                    <li><span class="dropdown-item-text">{{user.email}}</span></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'logout'%}?next={{request.path}}">logout</a></li>
+                    <li><a class="dropdown-item" href="{% url 'password_change' %}">Change password</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    {% else %}
+        <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-outline-success my-2 my-lg-0">Login</a>
+    {% endif %}
 
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="col-sm">
-        {% if user.is_authenticated %}
-            
-        <div class="dropdown">
-            <button onclick="loginDropdown()" class="btn btn-outline-success my-2 my-lg-0 loginBtn">{{user}}<i class="fa fa-caret-down"></i></button>
-            <div id="loginDropdown" class="dropdown-content">
-                <a href="{% url 'logout'%}?next={{request.path}}">logout</a>
-                <a href="{% url 'password_change' %}">Change password</a>
-            </div>
-        </div>
-        {% else %}
-            <a href="{% url 'login'%}?next={{request.path}}" class="btn btn-outline-success my-2 my-lg-0">Login</a>
-        {% endif %}
-    </div>
 </header>
 {% endblock %}
 
@@ -53,15 +36,46 @@
         <button class="side-panel-links" onclick="openPanel(event,'COGO-panel')">COGO</button>
     </div>
     <div class="right-panel">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div id="map-info-panel" class="side-panel-content">
-            Map Info Panel
+        <div id="map-info-panel" class="side-panel-content"  style="display:None">
+            <h3>Map Info</h3>
+
+            <div class="form-group">
+                <form action ="" method="post" class="navbar-form navbar-left my-2 my-lg-0">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div>
+                            {{form.name}}
+                        </div>
+                        <div>
+                            {{form.style}}
+                        </div>
+                        {{form.zoom}}
+                        {{form.location}}
+                        <div>
+                            <button type="submit" class="btn btn-outline-success my-2 my-lg-0">Save</button>
+                        </div>
+    
+                    </div>
+                </form>
+            </div>
         </div>
-        <div id="data-explorer-panel" class="side-panel-content">
-            Data Explorer Panel
+        <div id="data-explorer-panel" class="side-panel-content"  style="display:None">
+            <h3>Data Explorer</h3>
+
+            <p><b>Point Sets:</b></p>
+
+            {% for pointset in basemap.pointsets.all %}
+
+                <p>{{pointset}}</p>
+
+            {% empty %}
+
+                <p>None</p>
+
+            {% endfor %}
         </div>
-        <div id="COGO-panel" class="side-panel-content">
-            Cogo Panel
+        <div id="COGO-panel" class="side-panel-content"  style="display:None">
+            <h3>COGO</h3>
         </div>
     </div>
 </div>
